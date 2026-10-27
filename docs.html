@@ -19,7 +19,7 @@
   header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
   header img{height:44px;border-radius:8px}
   header nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:15px}
-  header nav a:hover{color:var(--text)}
+  header nav a:hover,header nav a.current{color:var(--text)}
   h1{font-size:30px;margin:8px 0 4px;letter-spacing:-.3px}
   .lead{color:var(--muted);margin:0 0 20px;max-width:640px}
   .layout{display:grid;grid-template-columns:260px 1fr;gap:20px;flex:1;min-height:0;padding-bottom:20px}
@@ -40,6 +40,7 @@
     .layout{grid-template-columns:1fr}
     .viewer{min-height:60vh}
     header nav a{margin-left:14px}
+    header nav a.hide-sm{display:none}
   }
 </style>
 </head>
@@ -48,7 +49,9 @@
   <header>
     <a href="index.html"><img src="assets/logo.png" alt="Ratronic"></a>
     <nav>
-      <a href="index.html">Home</a>
+      <a href="index.html#features" class="hide-sm">What it does</a>
+      <a href="index.html#install" class="hide-sm">Fitting</a>
+      <a href="docs.html" class="current">Docs</a>
       <a href="index.html#faq">Questions</a>
       <a href="index.html#buy">Buy</a>
     </nav>
