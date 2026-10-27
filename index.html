@@ -54,6 +54,8 @@
   details p{color:var(--muted);margin:10px 0 0}
   footer{padding:36px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
   .note{font-size:13px;color:var(--muted);margin-top:14px}
+  .thanks{display:none;background:#133a2a;border:1px solid var(--ok);color:#d7f7e8;border-radius:12px;padding:16px 20px;margin:12px 0 0}
+  .thanks.show{display:block}
   @media (max-width:760px){
     .hero{grid-template-columns:1fr;padding-top:24px}
     .grid,.plans{grid-template-columns:1fr}
@@ -73,6 +75,8 @@
       <a href="#buy">Buy</a>
     </nav>
   </header>
+
+  <div class="thanks" id="thanks"><strong>Thank you for your order!</strong> A receipt is on its way to your email. We will send a tracking number as soon as your package ships.</div>
 
   <div class="hero">
     <div>
@@ -111,7 +115,7 @@
           <li>Bluetooth app and OTA updates</li>
           <li>Power and diagnostic port cable</li>
         </ul>
-        <a class="btn" href="STRIPE_LINK_DISPLAY">Buy display &middot; 199 &euro;</a>
+        <a class="btn" href="https://buy.stripe.com/test_3cI7sM3cM7hh8qk4ya18c00">Buy display &middot; 199 &euro;</a>
       </div>
       <div class="plan best">
         <div class="tag">Best value</div>
@@ -124,7 +128,7 @@
           <li>True ignition signal, no guessing</li>
           <li>Works with or without an OBD2 ECU</li>
         </ul>
-        <a class="btn" href="STRIPE_LINK_BUNDLE">Buy bundle &middot; 249 &euro;</a>
+        <a class="btn" href="https://buy.stripe.com/test_3cIcN6cNmcBB4a48Oq18c01">Buy bundle &middot; 249 &euro;</a>
       </div>
     </div>
     <p class="note">Hand-built in Latvia in small batches. Questions before ordering? <a href="mailto:ralfsvolis@gmail.com">Email us</a>.</p>
@@ -157,5 +161,11 @@
     &copy; 2026 Ratronic &middot; Latvia &middot; <a href="mailto:ralfsvolis@gmail.com">ralfsvolis@gmail.com</a>
   </footer>
 </div>
+<script>
+  if (new URLSearchParams(location.search).get('paid') === '1') {
+    document.getElementById('thanks').classList.add('show');
+    history.replaceState(null, '', location.pathname);
+  }
+</script>
 </body>
 </html>
