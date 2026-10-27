@@ -26,6 +26,13 @@
   .hero p{color:var(--muted);font-size:18px;margin:0 0 26px}
   .screen{background:#000;border:10px solid #1a1a1a;border-radius:14px;box-shadow:0 30px 80px rgba(255,61,138,.18),0 0 0 1px #333;overflow:hidden}
   .screen img{display:block;width:100%}
+  .photo{border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(255,61,138,.18),0 0 0 1px var(--line)}
+  .photo img{display:block;width:100%}
+  .box{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+  .box ul{padding-left:18px;color:var(--muted);margin:0}
+  .box li{margin:8px 0}
+  .box .screen{max-width:420px}
+  @media (max-width:760px){.box{grid-template-columns:1fr}}
   .btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;border:0;font-size:16px;cursor:pointer}
   .btn:hover{filter:brightness(1.1)}
   .price-tag{font-size:15px;color:var(--muted);margin-left:14px}
@@ -84,7 +91,7 @@
       <p>An AMOLED screen that fits the original dash, reads the engine straight from the diagnostic port, drives your tachometer, and shows everything live on your phone over Bluetooth.</p>
       <a class="btn" href="#buy">Buy now</a><span class="price-tag">from 199 &euro;</span>
     </div>
-    <div class="screen"><img src="assets/van.png" alt="Ratronic Van Display showing the clock screen"></div>
+    <div class="photo"><img src="assets/kit-1600.jpg" srcset="assets/kit-800.jpg 800w, assets/kit-1600.jpg 1600w" sizes="(max-width:760px) 100vw, 480px" alt="Ratronic Van Display kit: display board, sensor module, connectors and cables"></div>
   </div>
 
   <section id="features">
@@ -132,6 +139,21 @@
       </div>
     </div>
     <p class="note">Hand-built in Latvia in small batches. Questions before ordering? <a href="mailto:ralfsvolis@gmail.com">Email us</a>.</p>
+  </section>
+
+  <section id="box">
+    <h2>In the box</h2>
+    <p class="lead">The Display + Sensor Module bundle, as shipped. Everything is hand-assembled and tested before it goes in the box.</p>
+    <div class="box">
+      <ul>
+        <li>Display board with the 536 x 240 AMOLED panel, ready to drop into the dash</li>
+        <li>Sensor module in a sealed enclosure with two automotive connectors</li>
+        <li>Mating connector housings and crimp terminals for your own wiring</li>
+        <li>Ribbon cable between the display and the vehicle side</li>
+        <li>Diagnostic port and power lead</li>
+      </ul>
+      <div class="screen"><img src="assets/van.png" alt="The clock screen with its default background"></div>
+    </div>
   </section>
 
   <section id="specs">
