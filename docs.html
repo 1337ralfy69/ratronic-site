@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ratronic Documentation</title>
+<meta name="description" content="Wiring and installation guides for the Ratronic Van Display and Sensor Module.">
+<link rel="icon" href="assets/logo.png">
+<style>
+  :root{
+    --bg:#0b0a14; --surface:#15132a; --line:#2c2850;
+    --text:#ece9f7; --muted:#a7a2c3; --brand:#ff3d8a; --accent:#ff8a3d;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column}
+  a{color:var(--accent)}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px;width:100%}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  header img{height:44px;border-radius:8px}
+  header nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:15px}
+  header nav a:hover{color:var(--text)}
+  h1{font-size:30px;margin:8px 0 4px;letter-spacing:-.3px}
+  .lead{color:var(--muted);margin:0 0 20px;max-width:640px}
+  .layout{display:grid;grid-template-columns:260px 1fr;gap:20px;flex:1;min-height:0;padding-bottom:20px}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .doc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left;color:var(--text);font:inherit}
+  .doc:hover{border-color:var(--muted)}
+  .doc.active{border-color:var(--brand);background:linear-gradient(180deg,#221a3a,var(--surface))}
+  .doc strong{display:block;font-size:16px}
+  .doc span{color:var(--muted);font-size:13px}
+  .doc small{display:block;margin-top:6px;font-size:12px}
+  .doc small a{text-decoration:none}
+  .viewer{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;min-height:70vh;display:flex;flex-direction:column}
+  .viewer object,.viewer iframe{flex:1;width:100%;border:0;min-height:70vh;background:#fff}
+  .fallback{padding:24px;color:var(--muted)}
+  .fallback a.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px;margin-top:10px}
+  footer{padding:20px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr}
+    .viewer{min-height:60vh}
+    header nav a{margin-left:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="index.html"><img src="assets/logo.png" alt="Ratronic"></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#faq">Questions</a>
+      <a href="index.html#buy">Buy</a>
+    </nav>
+  </header>
+
+  <h1>Documentation</h1>
+  <p class="lead">Wiring and installation guides. Pick one to read it here, or download the PDF to keep in the van.</p>
+
+  <div class="layout">
+    <div class="list" id="list">
+      <button class="doc active" data-src="docs/display-wiring.pdf">
+        <strong>Display wiring</strong>
+        <span>Plugs on the back of the display, the button, and the four ways to connect it: on its own, with OBD2, with the sensor module, or both.</span>
+        <small><a href="docs/display-wiring.pdf" download>Download PDF</a></small>
+      </button>
+      <button class="doc" data-src="docs/sensor-module-wiring.pdf">
+        <strong>Sensor module wiring</strong>
+        <span>Pin-by-pin guide to the two plugs: power, batteries, temperature and pressure sensors, exhaust probes and the switched outputs.</span>
+        <small><a href="docs/sensor-module-wiring.pdf" download>Download PDF</a></small>
+      </button>
+    </div>
+    <div class="viewer" id="viewer"></div>
+  </div>
+
+  <footer>&copy; 2026 Ratronic &middot; Latvia &middot; <a href="mailto:ralfsvolis@gmail.com">ralfsvolis@gmail.com</a></footer>
+</div>
+<script>
+  var viewer = document.getElementById('viewer');
+  var buttons = document.querySelectorAll('.doc');
+  function show(src){
+    viewer.innerHTML = '';
+    var o = document.createElement('object');
+    o.data = src + '#view=FitH';
+    o.type = 'application/pdf';
+    o.innerHTML = '<div class="fallback">Your browser cannot show PDFs inline.<br><a class="btn" href="' + src + '" target="_blank" rel="noopener">Open the PDF</a></div>';
+    viewer.appendChild(o);
+    buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.src === src); });
+    history.replaceState(null, '', '#' + src.split('/').pop().replace('.pdf',''));
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(e){
+      if (e.target.tagName === 'A') return;   // the download link inside the card
+      show(b.dataset.src);
+    });
+  });
+  var wanted = location.hash.replace('#','');
+  var start = wanted ? 'docs/' + wanted + '.pdf' : buttons[0].dataset.src;
+  if (![].some.call(buttons, function(b){ return b.dataset.src === start; })) start = buttons[0].dataset.src;
+  show(start);
+</script>
+</body>
+</html>
