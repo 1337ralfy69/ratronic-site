@@ -161,99 +161,147 @@
   td{border-bottom:1px solid #2a2b2e}
   footer{color:var(--muted)}
 
-  /* ===== 90s luxury: head unit in a walnut bezel ===== */
+  /* ===== late-90s head unit: soft-touch black, no trim ===== */
   :root{
-    --wood:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='220'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0035 .11' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 .7 .06 0 0 0 .32 .03 0 0 0 .14 .01 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
     --red:#ff4a1c;
     --red-glow:0 0 3px rgba(255,90,40,.95),0 0 10px rgba(255,60,20,.7),0 0 28px rgba(255,40,10,.35);
+    /* speckled mask so printed legends look pad-printed, not digital */
+    --print-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.1 1.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    --print:#e6e3da;
   }
-  header.unit{
-    display:grid;grid-template-columns:104px 1fr 128px;grid-template-rows:auto auto;gap:14px 22px;align-items:center;
-    margin:30px 0 12px;padding:20px 24px;border-radius:10px;position:relative;
-    background:var(--grain),linear-gradient(180deg,#232427,#151618);
-    border:1px solid #000;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.1),inset 0 -2px 0 rgba(0,0,0,.6),
-      0 30px 60px rgba(0,0,0,.6);
-  }
-  /* walnut bezel drawn behind the faceplate */
-  header.unit::before{
-    content:"";position:absolute;inset:-16px;border-radius:18px;z-index:-1;
-    background:linear-gradient(180deg,rgba(255,225,190,.22),rgba(255,255,255,0) 30%,rgba(0,0,0,.3)),var(--wood),#2e1407;
-    background-size:auto,700px 220px,auto;
-    box-shadow:0 0 0 1px #1a0c04,inset 0 1px 0 rgba(255,230,200,.35),0 24px 50px rgba(0,0,0,.7);
-  }
-  .wrap{position:relative;z-index:0}
 
+  /* screen-printed legend */
+  .print,header.unit nav a{
+    color:var(--print);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.14em;
+    text-shadow:0 -1px 0 rgba(0,0,0,.55);
+    -webkit-mask-image:var(--print-mask);mask-image:var(--print-mask);
+  }
+
+  header.unit{
+    display:grid;grid-template-columns:92px 1fr 150px;grid-template-rows:auto auto;gap:16px 24px;align-items:center;
+    margin:28px 0 12px;padding:22px 26px;border-radius:16px;position:relative;
+    background:
+      radial-gradient(140% 90% at 50% -20%,rgba(255,255,255,.07),transparent 60%),
+      var(--grain),linear-gradient(180deg,#232427,#18191b 55%,#121314);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.7),
+      0 0 0 1px #000,
+      0 0 0 6px #0f1011,                    /* dash opening */
+      0 0 0 7px rgba(255,255,255,.045),
+      0 26px 50px rgba(0,0,0,.65);
+  }
+
+  /* volume knob: smooth cap, fine knurled skirt, backlit dot */
   .knob{
-    grid-row:1 / span 2;width:96px;height:96px;border-radius:50%;justify-self:center;position:relative;
-    background:radial-gradient(circle at 50% 38%,#3a3b3f 0%,#1d1e20 55%,#0e0f10 100%);
-    box-shadow:0 0 0 3px #0b0b0c,0 0 0 4px rgba(255,255,255,.06),0 8px 16px rgba(0,0,0,.7),inset 0 2px 1px rgba(255,255,255,.12);
+    grid-row:1 / span 2;width:80px;height:80px;border-radius:50%;justify-self:center;position:relative;
+    background:repeating-conic-gradient(#222326 0 2deg,#151618 2deg 4deg);
+    box-shadow:0 0 0 2px #070708,0 0 0 3px rgba(255,255,255,.05),0 7px 14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.12);
   }
-  .knob::before{ /* knurled grip */
-    content:"";position:absolute;inset:4px;border-radius:50%;
-    background:repeating-conic-gradient(rgba(255,255,255,.07) 0 4deg,rgba(0,0,0,.25) 4deg 8deg);
-    -webkit-mask:radial-gradient(circle,transparent 62%,#000 63%);mask:radial-gradient(circle,transparent 62%,#000 63%);
+  .knob::before{
+    content:"";position:absolute;inset:9px;border-radius:50%;
+    background:radial-gradient(circle at 50% 30%,#3a3b3f,#222326 55%,#18191b);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -2px 4px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.8);
   }
-  .knob::after{ /* pointer */
-    content:"";position:absolute;left:50%;top:14px;width:3px;height:16px;margin-left:-1.5px;border-radius:2px;
-    background:#f2efe8;box-shadow:0 0 4px rgba(255,255,255,.35);transform-origin:50% 34px;transform:rotate(-35deg);
+  .knob::after{
+    content:"";position:absolute;left:50%;top:15px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;
+    background:var(--red);box-shadow:var(--red-glow);transform-origin:50% 25px;transform:rotate(-40deg);
   }
 
   .display{
     grid-column:2;display:block;text-decoration:none;position:relative;overflow:hidden;
-    padding:10px 22px 14px;border-radius:5px;border:1px solid #000;
+    padding:10px 22px 14px;border-radius:6px;
     background:
-      radial-gradient(circle,rgba(255,74,28,.10) 1.1px,transparent 1.6px) 0 0/7px 7px,  /* unlit dots */
-      linear-gradient(180deg,rgba(255,255,255,.07),transparent 30%),                    /* glass */
+      linear-gradient(115deg,rgba(255,255,255,.06) 0 28%,transparent 28.5%),             /* smoked glass glare */
+      radial-gradient(circle,rgba(255,74,28,.10) 1.1px,transparent 1.6px) 0 0/7px 7px,   /* unlit dots */
       radial-gradient(120% 160% at 50% 0%,#1c0805,#060201 70%);
-    box-shadow:inset 0 4px 12px rgba(0,0,0,.95),0 1px 0 rgba(255,255,255,.08);
+    box-shadow:0 0 0 1px #000,0 0 0 3px #0c0c0d,0 1px 0 3px rgba(255,255,255,.06),inset 0 4px 12px rgba(0,0,0,.95);
   }
   .d-top{display:flex;gap:16px;font:11px/1 "Share Tech Mono",monospace;color:var(--red);opacity:.85;text-shadow:var(--red-glow);letter-spacing:.12em}
   .d-top .d-st{margin-left:auto}
   .d-name{
     display:block;font-family:"Doto","Share Tech Mono",monospace;font-weight:900;
-    font-size:clamp(46px,9.2vw,104px);line-height:1;letter-spacing:.06em;margin-top:6px;
+    font-size:clamp(46px,9.2vw,104px);line-height:1;letter-spacing:.06em;margin-top:6px;white-space:nowrap;
     color:var(--red);text-shadow:var(--red-glow);
   }
+  .d-name .blink{opacity:.15}
 
-  .modes{grid-column:3;grid-row:1 / span 2;display:flex;flex-direction:column;gap:9px;font:13px/1 "Helvetica Neue",Arial,sans-serif;color:#e9e7e1}
-  .modes span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;border:1.5px solid #d6d4cf;margin-right:9px;vertical-align:-1px}
-  .modes span.on::before{background:var(--red);border-color:var(--red);box-shadow:var(--red-glow)}
+  /* right side: function lamps + MFA key */
+  .side{grid-column:3;grid-row:1 / span 2;display:flex;flex-direction:column;gap:16px;align-self:stretch;justify-content:center}
+  .lamps{display:flex;flex-direction:column;gap:4px}
+  .lamp{background:none;border:0;padding:4px 0;text-align:left;cursor:pointer;font-size:10.5px;display:flex;align-items:center;gap:10px}
+  .lamp i{flex:none;width:6px;height:6px;border-radius:50%;background:#3b1308;box-shadow:0 0 0 1.5px #070708,inset 0 1px 1px rgba(0,0,0,.6);transition:background .12s,box-shadow .12s}
+  .lamp.on i{background:#ff6a3a;box-shadow:0 0 0 1.5px #070708,var(--red-glow)}
+  .lamp:hover{color:#fff}
 
-  header.unit nav{grid-column:2;display:flex;flex-wrap:wrap;gap:10px}
-  header.unit nav a{margin:0;flex:1 1 auto;text-align:center;font-family:"Michroma",sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 10px}
+  /* realistic keys: sit in a well, top-edge highlight, side wall, travel when pressed */
+  .key,header.unit nav a{
+    position:relative;cursor:pointer;border:0;border-radius:6px;
+    background:
+      radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.09),transparent 70%),
+      linear-gradient(180deg,#3a3b3f 0%,#2b2c2f 7%,#232427 55%,#1c1d1f 93%,#141516 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.17),inset 0 -1px 0 rgba(0,0,0,.55),
+      inset 1px 0 0 rgba(255,255,255,.035),inset -1px 0 0 rgba(0,0,0,.35),
+      0 0 0 1px #050506,
+      0 2px 0 1px #0b0c0d,
+      0 4px 8px rgba(0,0,0,.55);
+    transition:transform .05s,box-shadow .05s;
+  }
+  .key:active,header.unit nav a:active{
+    transform:translateY(2px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 2px 3px rgba(0,0,0,.35),0 0 0 1px #050506,0 0 0 1px #0b0c0d,0 1px 2px rgba(0,0,0,.5);
+  }
+  .mfa-key{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-size:12px;width:100%}
+  .mfa-key .print{font-size:12px}
+  .mfa-key .arrows{font-size:8px;letter-spacing:.2em;opacity:.8}
+  .mfa-key:hover .print{color:#ffd2bd;text-shadow:0 0 6px rgba(255,90,40,.7)}
 
-  /* ===== car-phone keys ===== */
-  /* orange "Snd" key for buying */
+  header.unit nav{
+    grid-column:2;display:flex;flex-wrap:wrap;gap:10px;padding:8px;border-radius:9px;
+    background:#0d0e0f;box-shadow:inset 0 2px 4px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.05);
+  }
+  header.unit nav a{margin:0;flex:1 1 auto;text-align:center;font-size:10.5px;padding:10px 10px 9px;text-decoration:none}
+  header.unit nav a:hover{color:#ffd2bd;text-shadow:0 0 6px rgba(255,90,40,.7)}
+
+  /* ===== buy keys: convex orange rubber, like the car phone's Snd ===== */
   .btn{
-    background:linear-gradient(180deg,#ff8a4a,#e85a1f 55%,#c9460f);
-    color:#2b1003;text-shadow:0 1px 0 rgba(255,220,190,.45);
-    border:1px solid #5a1d05;border-radius:7px;font-family:"Michroma",sans-serif;font-size:12px;letter-spacing:.1em;
-    box-shadow:inset 0 1px 0 rgba(255,230,200,.6),inset 0 -2px 0 rgba(120,30,0,.5),0 3px 0 #3a1203,0 8px 16px rgba(0,0,0,.6),0 0 22px rgba(255,100,40,.18);
+    background:
+      radial-gradient(110% 80% at 50% 0%,rgba(255,215,190,.55),transparent 60%),
+      linear-gradient(180deg,#f97b3c,#e2571c 60%,#c4440f);
+    color:#2a0e02;text-shadow:0 1px 0 rgba(255,215,190,.4);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;
+    border:0;border-radius:8px;
+    box-shadow:inset 0 1px 0 rgba(255,235,215,.6),inset 0 -2px 3px rgba(110,25,0,.45),0 0 0 1px #3b1202,0 3px 0 1px #250b01,0 7px 14px rgba(0,0,0,.55);
   }
   .btn::before{display:none}
-  .btn .eur{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:14px}
-  .btn:hover{color:#1a0800;background:linear-gradient(180deg,#ff9a5e,#f0662a 55%,#d24f15)}
+  .btn .eur{font-weight:700;font-size:inherit}
+  .btn:hover{color:#1a0700}
+  .btn:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,235,215,.4),inset 0 2px 4px rgba(110,25,0,.4),0 0 0 1px #3b1202,0 0 0 1px #250b01,0 2px 4px rgba(0,0,0,.5)}
   /* pale rubber keypad keys for the step numbers */
   .step::before{
-    font-family:"Michroma",sans-serif;font-size:16px;color:#2a2d29;text-shadow:0 1px 0 rgba(255,255,255,.5);
-    background:linear-gradient(180deg,#e4e8df,#bfc6b9);border:1px solid #1a1c1a;border-radius:8px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 0 rgba(0,0,0,.15),0 2px 0 #0b0c0b,0 0 14px rgba(200,230,190,.12);
+    font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:17px;color:#2a2d29;text-shadow:0 1px 0 rgba(255,255,255,.5);
+    background:radial-gradient(110% 80% at 50% 0%,rgba(255,255,255,.7),transparent 60%),linear-gradient(180deg,#dfe3da,#b9c0b3);
+    border:0;border-radius:8px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -2px 3px rgba(0,0,0,.18),0 0 0 1px #111211,0 2px 0 1px #0b0c0b,0 5px 10px rgba(0,0,0,.5);
   }
 
-  /* printed-on-the-faceplate type for headings */
+  /* headings */
   .hero h1{font-family:"Michroma","Helvetica Neue",sans-serif;font-weight:400;font-size:clamp(28px,4vw,44px);line-height:1.2;letter-spacing:0}
   .card h3,.step h3,.plan h3{font-family:"Michroma",sans-serif;font-weight:400;font-size:15px;letter-spacing:.03em}
   .plan h3{font-size:18px}
 
   @media (max-width:760px){
-    header.unit{grid-template-columns:1fr;padding:14px;margin:18px 0 8px}
-    .knob,.modes{display:none}
+    header.unit{grid-template-columns:1fr;padding:14px;margin:18px 0 8px;border-radius:12px}
+    .knob{display:none}
     .display,header.unit nav{grid-column:1}
+    .side{grid-column:1;grid-row:auto;flex-direction:row;align-items:center;gap:12px}
+    .lamps{flex-direction:row;flex-wrap:wrap;gap:2px 12px;flex:1}
+    .lamp{font-size:9px;gap:6px;letter-spacing:.1em}
+    .mfa-key{width:auto;flex:none;gap:10px}
     .d-name{font-size:clamp(34px,12vw,60px)}
-    header.unit nav{gap:8px}
-    header.unit nav a{font-size:10px;padding:8px 6px}
+    header.unit nav{gap:8px;padding:6px}
+    header.unit nav a{font-size:9.5px;padding:9px 6px 8px}
     h2{font-size:21px}
   }
 </style>
@@ -264,11 +312,17 @@
   <header class="unit">
     <div class="knob" aria-hidden="true"></div>
     <a class="display" href="index.html" aria-label="Ratronic home">
-      <span class="d-top"><span>MFA</span><span>T3</span><span class="d-st">ST</span></span>
-      <span class="d-name">RATRONIC</span>
+      <span class="d-top"><span id="dLabel">MFA</span><span class="d-st">T3</span></span>
+      <span class="d-name" id="dName">RATRONIC</span>
     </a>
-    <div class="modes" aria-hidden="true">
-      <span class="on">Uhr</span><span>Temp</span><span>Drehzahl</span><span>Batterie</span>
+    <div class="side">
+      <div class="lamps" role="group" aria-label="Display functions">
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Uhr</button>
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Temp</button>
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Drehzahl</button>
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Batterie</button>
+      </div>
+      <button type="button" class="key mfa-key" id="mfaKey" aria-label="Next display function"><span class="print">MFA</span><span class="arrows print">&#9650;&#9660;</span></button>
     </div>
     <nav>
       <a href="#features" class="hide-sm">What it does</a>
@@ -398,6 +452,41 @@
     document.getElementById('thanks').classList.add('show');
     history.replaceState(null, '', location.pathname);
   }
+
+  // MFA key: cycles the header display through demo readings, like the real unit
+  (function(){
+    var nameEl = document.getElementById('dName'), labEl = document.getElementById('dLabel');
+    var key = document.getElementById('mfaKey');
+    if (!nameEl || !key) return;
+    var lamps = Array.prototype.slice.call(document.querySelectorAll('.lamp'));
+    var live = {temp: 88, rpm: 850, bat: 14.1};
+    function pad(n){ return (n < 10 ? '0' : '') + n; }
+    var modes = [
+      {label: 'UHR', value: function(){ var d = new Date(); return pad(d.getHours()) + '<span class="' + (d.getSeconds() % 2 ? 'blink' : '') + '">:</span>' + pad(d.getMinutes()); }},
+      {label: 'KÜHLMITTEL', value: function(){ return Math.round(live.temp) + '°C'; }},
+      {label: 'DREHZAHL 1/MIN', value: function(){ return String(Math.round(live.rpm / 10) * 10); }},
+      {label: 'BATTERIE', value: function(){ return live.bat.toFixed(1) + ' V'; }}
+    ];
+    var current = -1, idle;
+    function draw(){
+      if (current < 0) { nameEl.textContent = 'RATRONIC'; labEl.textContent = 'MFA'; }
+      else { nameEl.innerHTML = modes[current].value(); labEl.textContent = modes[current].label; }
+      lamps.forEach(function(b, k){ b.classList.toggle('on', k === current); b.setAttribute('aria-pressed', k === current); });
+    }
+    function show(n){
+      current = n; draw();
+      clearTimeout(idle);
+      if (current >= 0) idle = setTimeout(function(){ show(-1); }, 10000);   // back to RATRONIC after 10 s
+    }
+    key.addEventListener('click', function(){ show(current + 1 >= modes.length ? -1 : current + 1); });
+    lamps.forEach(function(b, k){ b.addEventListener('click', function(){ show(k); }); });
+    setInterval(function(){
+      live.temp += (88 - live.temp) * 0.2 + (Math.random() - 0.5) * 0.8;
+      live.rpm = 850 + (Math.random() - 0.5) * 60;
+      live.bat = 14.1 + (Math.random() - 0.5) * 0.1;
+      if (current >= 0) draw();
+    }, 1000);
+  })();
 </script>
 </body>
 </html>
