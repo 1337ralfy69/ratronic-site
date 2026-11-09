@@ -505,51 +505,63 @@
     plate:'#ece9df', plateBlue:'#2b54b8', ink:'#1a1a1a',
     bump:'#141414', bumpHi:'#2e2e2e', bumpLo:'#0a0a0a', tyre:'#141414', tread:'#262626', under:'#050402', pipe:'#4a4a4a'
   };
-  var GW = 76, rear = [];
+  /* Proportions measured from a straight-on photo of a Vanagon's tail (bumper = full 76 px width):
+     body tapers in towards the roof, huge rear window, black band under it, badges on the lower panel,
+     wide low tail lights (amber outside, white, red inside), plate low in the middle, big box bumper. */
+  var GW = 76, GH = 85, rear = [];
   function R(x, y, w, h, c){ rear.push([x, y, w, h, c]); }
   function M(x, y, w, h, c){ R(x, y, w, h, c); if (x * 2 + w !== GW) R(GW - x - w, y, w, h, c); }   // draw + mirror
+  function sideAt(y){ return y >= 42 ? 2 : Math.round(10 - (y - 10) * 8 / 32); }                       // left body edge per row
 
-  // roof rack (same bars and feet as the side view)
-  R(8,2,60,2,P.rack); R(8,2,60,1,P.rackHi); M(11,0,4,5,P.foot); M(11,0,4,1,P.rackHi);
-  // roof, slightly domed, lighter than the body
-  R(12,5,52,1,P.roofHi); R(8,6,60,1,P.roofHi); R(6,7,64,1,P.roof); R(5,8,66,1,P.roof); R(5,9,66,1,P.roofLo);
-  R(4,10,68,1,P.gutter);
-  // tailgate
-  R(3,11,70,34,P.body); R(3,11,70,1,P.bodyHi); M(3,11,2,34,P.edge); M(5,11,1,34,P.bodyLo);
-  // big rear window: rubber seal, rounded corners, darker glass, sky reflection
-  R(9,14,58,25,P.seal); R(10,15,56,23,P.glass); R(10,15,56,3,P.glassHi);
-  M(9,14,2,1,P.body); M(9,15,1,1,P.body); M(9,38,2,1,P.body); M(9,37,1,1,P.body);
-  for (var gi = 0; gi < 9; gi++) R(16 + gi * 3, 33 - gi * 2, 4, 3, gi % 3 === 1 ? P.glare : '#323c44');
-  for (var gj = 0; gj < 6; gj++) R(26 + gj * 3, 35 - gj * 2, 2, 2, '#2c353c');
-  // a few stickers, like the side windows
-  [['#e8354a',12,32,3,2],['#ffd23f',16,34,2,2],['#2f86d6',12,35,3,2],['#46c45a',58,16,3,2],['#f4f2ea',62,17,2,2],
-   ['#ff8c2f',58,19,2,2],['#7a4fd0',61,20,3,2],['#e8354a',55,34,2,2],['#2fd0c4',59,33,3,2],['#ffd23f',63,35,2,1]]
-    .forEach(function(s){ R(s[1], s[2], s[3], s[4], s[0]); });
-  // tailgate handle / lock
-  R(34,41,8,2,P.chrome); R(34,43,8,1,P.chromeLo); R(37,42,2,1,P.deep);
-  // tailgate shut line
-  R(3,45,70,1,P.shadow); R(6,46,64,1,P.bodyHi);
-  // lower body with the engine lid
-  R(3,47,70,18,P.bodyMid); M(3,47,2,18,P.edge);
-  R(17,48,42,1,P.shadow); R(17,48,1,15,P.shadow); R(58,48,1,15,P.shadow); R(17,62,42,1,P.shadow); R(18,49,40,1,P.bodyHi);
-  // Latvian number plate with plate light
-  R(33,51,10,1,P.deep);
-  R(23,53,30,8,P.ink); R(24,54,28,6,P.plate); R(24,54,3,6,P.plateBlue);
-  [29,32].forEach(function(x){ R(x,55,2,4,P.ink); }); R(35,57,1,1,P.ink); [37,40,43,46,49].forEach(function(x){ R(x,55,2,4,P.ink); });
-  // tall tail lights: amber indicator, red, reverse
-  M(5,47,8,17,P.seal);
-  M(6,48,6,4,P.amber); M(6,48,6,1,P.amberHi);
-  M(6,53,6,7,P.red); M(6,53,6,1,P.redHi); M(6,58,6,2,P.redLo);
-  M(6,61,6,2,P.rev);
-  R(3,65,70,2,P.shadow);
-  // black wraparound bumper
-  R(1,67,74,7,P.bump); R(1,67,74,1,P.bumpHi); R(0,68,1,5,P.bump); R(75,68,1,5,P.bump); R(2,70,72,1,P.bumpLo); R(1,73,74,1,P.bumpLo);
-  // underneath: shadow, tyres with tread, exhaust
-  R(8,74,60,3,P.under);
-  M(6,73,12,12,P.tyre); M(7,85,10,1,P.tyre); M(8,74,1,11,P.tread); M(11,74,1,11,P.tread); M(14,74,1,11,P.tread);
-  R(50,75,5,3,P.pipe); R(51,76,3,1,P.deep);
+  // roof rack: cross bar with end caps and four feet, as on the side view
+  R(9,3,58,2,P.rack); R(9,3,58,1,P.rackHi); R(7,3,2,3,P.foot); R(67,3,2,3,P.foot);
+  M(13,5,3,5,P.foot); M(13,5,1,5,P.rackHi); M(24,5,2,5,P.foot);
+  // roof cap, lighter like the side view
+  R(13,9,50,1,P.roofHi); R(11,10,54,1,P.roof); R(10,11,56,1,P.roofLo);
+  // tapered upper body (tailgate), one row at a time
+  for (var y = 12; y <= 43; y++){
+    var l = sideAt(y), w = GW - l * 2;
+    R(l, y, w, 1, P.body); R(l, y, 1, 1, P.edge); R(GW - l - 1, y, 1, 1, P.edge);
+    R(l + 1, y, 1, 1, P.bodyHi);                                                    // light catches the left flank
+  }
+  // huge rear window, following the taper, rounded corners, defroster lines
+  for (var wy = 13; wy <= 34; wy++){
+    var wl = sideAt(wy) + 2, ww = GW - wl * 2, round = (wy === 13 || wy === 34) ? 2 : (wy === 14 || wy === 33) ? 1 : 0;
+    R(wl + round, wy, ww - round * 2, 1, P.seal);
+    if (wy > 13 && wy < 34) R(wl + 1 + round, wy, ww - 2 - round * 2, 1, wy < 17 ? P.glassHi : (wy % 3 === 0 ? '#262f36' : P.glass));
+  }
+  R(20, 20, 6, 4, '#151a1e'); R(50, 20, 6, 4, '#151a1e');                            // headrests seen through the glass
+  [['#e8354a',13,29,2,2],['#ffd23f',16,30,2,2],['#2f86d6',13,31,2,1],['#46c45a',60,17,2,2],['#f4f2ea',62,19,1,1],['#ff8c2f',59,20,2,1]]
+    .forEach(function(s){ R(s[1], s[2], s[3], s[4], s[0]); });                      // a few stickers, like the side windows
+  // wiper: blade parked along the bottom right of the glass, arm down to the centre pivot
+  R(46,33,18,1,'#0a0a0a'); R(44,34,3,1,'#0a0a0a'); R(41,35,3,1,'#0a0a0a'); R(38,36,3,1,'#0a0a0a'); R(37,37,2,2,'#0a0a0a');
+  // black band across the back under the window
+  R(2,40,72,3,'#151515'); R(2,40,72,1,'#2a2a2a'); R(2,43,72,1,P.bodyHi);
+  // lower tailgate panel with badges, crease line and the lock
+  R(2,44,72,13,P.bodyMid); R(2,44,1,13,P.edge); R(73,44,1,13,P.edge);
+  R(5,48,1,2,P.chrome); R(4,48,3,1,P.chromeLo);                                      // VW roundel
+  [8,10,12,14,16,18].forEach(function(x){ R(x, 48, 1, 2, P.chromeLo); });             // VOLKSWAGEN
+  [55,57,59,61,63,66,68].forEach(function(x){ R(x, 48, 1, 2, P.chromeLo); });         // VANAGON GL
+  [64,66,68,70].forEach(function(x){ R(x, 51, 1, 1, P.chromeLo); });                  // syncro
+  R(3,53,70,1,P.bodyHi); R(3,54,70,1,P.shadow);                                       // crease line
+  R(37,51,2,2,P.chrome);                                                              // lock
+  // lower body, tail lights and plate recess
+  R(2,57,72,6,P.bodyMid); R(2,57,1,6,P.edge); R(73,57,1,6,P.edge);
+  M(4,56,15,7,'#0b0b0b');
+  M(5,57,4,5,P.amber); M(5,57,4,1,P.amberHi);
+  M(9,57,4,5,P.rev);
+  M(13,57,5,5,P.red); M(13,57,5,1,P.redHi); M(13,61,5,1,P.redLo);
+  R(31,56,14,7,P.shadow); R(32,57,12,6,P.plate); R(32,57,2,6,P.plateBlue);
+  [35,37,40,42].forEach(function(x){ R(x, 58, 1, 3, P.ink); });
+  // big black box bumper, wider than the body, tow hitch in the middle
+  R(0,63,76,9,P.bump); R(0,63,76,1,P.bumpHi); R(1,64,74,1,'#1f1f1f'); R(0,71,76,1,P.bumpLo);
+  R(36,67,4,3,'#3a3a3a'); R(37,68,2,1,P.bumpLo);
+  // underneath: dark underbody, exhaust, tyres at the corners
+  R(12,72,52,2,P.under); R(24,72,24,1,'#5a4a3a'); R(47,72,4,2,P.pipe);
+  M(2,71,12,13,P.tyre); M(3,84,10,1,P.tyre);
+  M(4,72,1,12,P.tread); M(7,72,1,12,P.tread); M(10,72,1,12,P.tread);
 
-  drawPixels(document.getElementById('pxRear'), rear, GW, 86, .95);
+  drawPixels(document.getElementById('pxRear'), rear, GW, GH, .95);
   window.addEventListener('pointermove', function(e){
     if (e.pointerType === 'touch') return;
     tilt.pitch = (e.clientX / innerWidth - .5) * 10;
