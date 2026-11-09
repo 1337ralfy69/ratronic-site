@@ -34,24 +34,52 @@
   .stage{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:32px 16px}
   .dash{display:flex;align-items:center;gap:clamp(20px,3vw,40px)}
 
-  /* the T3 clock surround */
-  .bezel{
-    position:relative;width:min(860px,calc(100vw - 170px));
-    padding:clamp(22px,3.4vw,38px) clamp(22px,4vw,46px) clamp(30px,4.4vw,50px);
-    border-radius:16px;
-    background:radial-gradient(140% 90% at 50% -20%,rgba(255,255,255,.06),transparent 60%),var(--grain),linear-gradient(180deg,#222325,#151617 60%,#111213);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -2px 0 rgba(0,0,0,.6),0 0 0 1px #000,0 0 0 8px #0d0e0f,0 0 0 9px rgba(255,255,255,.04),0 30px 60px rgba(0,0,0,.65);
+  /* ===== the T3 / Vanagon centre panel: two rows of switch blanks above the clock slot ===== */
+  .pod{
+    container-type:inline-size;width:min(620px,calc(100vw - 200px),calc(100vh - 130px));min-width:300px;border-radius:10px;
+    background:radial-gradient(140% 70% at 50% -10%,rgba(255,255,255,.05),transparent 60%),var(--grain),linear-gradient(180deg,#1b1b1c,#121213 70%,#0f0f10);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -2px 0 rgba(0,0,0,.6),0 0 0 1px #000,0 0 0 7px #0b0b0c,0 0 0 8px rgba(255,255,255,.04),0 30px 60px rgba(0,0,0,.65);
   }
-  .screw{position:absolute;bottom:clamp(9px,1.4vw,16px);width:11px;height:11px;border-radius:50%;
-    background:radial-gradient(circle at 40% 35%,#2a2a2c,#09090a 70%);box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.06)}
-  .screw.l{left:clamp(14px,2.2vw,24px)}.screw.r{right:clamp(14px,2.2vw,24px)}
+  .pod-in{padding:4cqw 4.5cqw 4.5cqw;display:flex;flex-direction:column;gap:2.6cqw}
+
+  .blanks{
+    display:flex;gap:2.4cqw;padding:2cqw 2.4cqw;border-radius:1.8cqw;background:#0d0d0e;
+    box-shadow:inset 0 .5cqw 1cqw rgba(0,0,0,.9),inset 0 -.2cqw 0 rgba(255,255,255,.03),0 .25cqw 0 rgba(255,255,255,.05);
+  }
+  .b{
+    height:8.5cqw;border-radius:1.5cqw;
+    background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.05),transparent 70%),var(--grain),linear-gradient(180deg,#1c1c1d,#141415);
+    box-shadow:
+      inset 0 .25cqw 0 rgba(255,255,255,.07),inset 0 -.35cqw .6cqw rgba(0,0,0,.6),
+      0 0 0 .4cqw #2c2c2d,                 /* the worn, lighter rim you see on the real blanks */
+      0 -.15cqw 0 .4cqw #3a3a3b,
+      0 0 0 .75cqw #080808;
+  }
+  .b.s{flex:0 0 11cqw}.b.w{flex:1}
+
+  .surround{
+    padding:2.4cqw;border-radius:1.8cqw;background:#0d0d0e;
+    box-shadow:inset 0 .6cqw 1.2cqw rgba(0,0,0,.9),0 .25cqw 0 rgba(255,255,255,.05);
+  }
+  .inner{
+    position:relative;display:flex;justify-content:center;padding:4.2cqw 0 6.8cqw;border-radius:1.4cqw;
+    background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.05),transparent 70%),var(--grain),linear-gradient(180deg,#1f1f20,#161617);
+    box-shadow:inset 0 .3cqw 0 rgba(255,255,255,.09),inset 0 -.3cqw 0 rgba(0,0,0,.6),0 0 0 .3cqw #070707,0 .5cqw 1cqw rgba(0,0,0,.6);
+  }
+  .window{
+    padding:1.7cqw 2cqw;border-radius:1cqw;background:#0b0b0c;
+    box-shadow:inset 0 .5cqw 1cqw rgba(0,0,0,.95),inset 0 0 0 .25cqw #050505,0 .25cqw 0 rgba(255,255,255,.07);
+  }
+  .screw{position:absolute;bottom:2.4cqw;width:2.1cqw;height:2.1cqw;border-radius:50%;
+    background:radial-gradient(circle at 45% 40%,#050505 45%,#1d1d1e 70%);box-shadow:0 .2cqw 0 rgba(255,255,255,.07),inset 0 .2cqw .3cqw rgba(0,0,0,.9)}
+  .screw.l{left:3.6cqw}.screw.r{right:3.6cqw}
 
   .glass{
-    position:relative;width:100%;aspect-ratio:536/240;background:#000;border-radius:4px;overflow:hidden;cursor:pointer;outline:none;
+    position:relative;width:60cqw;aspect-ratio:536/240;background:#000;border-radius:.6cqw;overflow:hidden;cursor:pointer;outline:none;
     -webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:pan-y;
-    box-shadow:0 0 0 2px #000,0 0 0 8px #0b0b0c,0 0 0 9px rgba(255,255,255,.05),0 0 0 16px #19191a,0 0 0 17px #060606,inset 0 0 30px rgba(0,0,0,.8);
+    box-shadow:0 0 0 .5cqw #262628,0 0 0 .8cqw #000,inset 0 0 30px rgba(0,0,0,.8);
   }
-  .glass:focus-visible{box-shadow:0 0 0 2px #000,0 0 0 8px #0b0b0c,0 0 0 9px rgba(61,255,94,.5),0 0 0 16px #19191a,0 0 0 17px #060606}
+  .glass:focus-visible{box-shadow:0 0 0 .5cqw rgba(61,255,94,.6),0 0 0 .8cqw #000}
   .glass::after{ /* glass glare */
     content:"";position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(115deg,rgba(255,255,255,.07) 0 22%,transparent 22.5% 70%,rgba(255,255,255,.025) 70.5%);
@@ -106,27 +134,38 @@
   .info p{position:absolute;left:0;right:0;margin:0;text-align:center;font-size:17px}
   .info .l1{top:98px}
   .info .l2{top:124px;color:var(--dim);font-size:15px}
-  .info a{position:absolute;left:50%;top:172px;transform:translateX(-50%);color:var(--green);font-size:17px;text-decoration:none;border:1px solid rgba(61,255,94,.45);border-radius:4px;padding:4px 14px;white-space:nowrap}
-  .info a:hover{background:rgba(61,255,94,.12)}
+  .info .l3{top:168px;font-size:22px;letter-spacing:.2em}
+  .info .l3 .cur{width:12px;height:20px;vertical-align:-2px}
 
-  /* two-way rocker switch, like the one in the kit */
-  .rocker-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px}
-  .rocker{
-    width:70px;height:140px;padding:5px;border-radius:11px;display:flex;flex-direction:column;gap:3px;
-    background:#0b0b0c;box-shadow:inset 0 2px 6px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.06),0 0 0 1px #000;
+  /* ===== Vanagon dash rocker switch: square frame, chunky rocker, symbol window ===== */
+  .rocker-wrap{position:relative;display:flex;flex-direction:column;align-items:center}
+  .switch{
+    width:122px;height:94px;padding:9px;border-radius:7px;
+    background:var(--grain),linear-gradient(180deg,#1c1c1d,#121213);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px #000,0 0 0 6px #0c0c0d,0 0 0 7px rgba(255,255,255,.05),0 12px 24px rgba(0,0,0,.55);
   }
-  .half{
-    flex:1;border:0;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;
-    border-radius:8px 8px 3px 3px;
-    background:radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.1),transparent 70%),linear-gradient(180deg,#3a3b3e,#242528 60%,#1b1c1e);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(0,0,0,.6),0 2px 0 #060607,0 4px 8px rgba(0,0,0,.5);
-    transition:transform .06s,box-shadow .06s;-webkit-tap-highlight-color:transparent;
+  .rocker{position:relative;width:100%;height:100%;border-radius:4px;background:#050505;box-shadow:inset 0 2px 5px rgba(0,0,0,.95);perspective:220px}
+  .face{
+    position:absolute;inset:3px;border-radius:3px;transform-origin:50% 50%;transition:transform .08s ease-out;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.07) 0,transparent 8%),
+      linear-gradient(180deg,#38383a 0%,#2b2b2d 47%,#18181a 50%,#232325 53%,#1d1d1f 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.7),inset 1px 0 0 rgba(255,255,255,.04),inset -1px 0 0 rgba(0,0,0,.4),0 3px 6px rgba(0,0,0,.6);
   }
-  .half.down{border-radius:3px 3px 8px 8px;background:radial-gradient(120% 70% at 50% 100%,rgba(255,255,255,.05),transparent 70%),linear-gradient(180deg,#2c2d30,#222326 50%,#18191b)}
-  .half span{font-size:13px;letter-spacing:0;transition:color .1s,text-shadow .1s}
-  .half:active,.half.pressed{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 2px 4px rgba(0,0,0,.4),0 0 0 #060607,0 1px 2px rgba(0,0,0,.5)}
-  .half:active span,.half.pressed span{color:#c9ffd3;text-shadow:0 0 6px rgba(61,255,94,.8)}
-  .half:focus-visible{outline:2px solid rgba(61,255,94,.6);outline-offset:2px}
+  .face .win{
+    position:absolute;left:50%;top:11%;transform:translateX(-50%);width:56%;height:36%;border-radius:2px;
+    background:#0f0f10;box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 1px 0 rgba(255,255,255,.08);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .face .win svg{width:70%;height:70%;fill:none;stroke:#e9e6dd;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke .1s,filter .1s}
+  .face .grip{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:40%;height:3px;border-radius:2px;background:#121213;box-shadow:0 1px 0 rgba(255,255,255,.06)}
+  .rocker.t-up .face{transform:rotateX(11deg);filter:brightness(.88)}
+  .rocker.t-down .face{transform:rotateX(-11deg);filter:brightness(1.08)}
+  .rocker.t-up .win svg,.rocker.t-down .win svg{stroke:#9dffb0;filter:drop-shadow(0 0 3px rgba(61,255,94,.9))}
+  .half{position:absolute;left:0;right:0;height:50%;z-index:2;border:0;padding:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .half.up{top:0}.half.down{bottom:0}
+  .half:focus-visible{outline:2px solid rgba(61,255,94,.6);outline-offset:-2px;border-radius:4px}
+  .hint{top:calc(100% + 18px)}
   .hint{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);margin:0;white-space:nowrap;font-size:10px;animation:nudge 1.4s ease-in-out infinite;transition:opacity .3s}
   .hint.gone{opacity:0;pointer-events:none}
   @keyframes nudge{50%{transform:translate(-50%,-4px)}}
@@ -140,14 +179,12 @@
 
   @media (max-width:700px){
     .dash{flex-direction:column;gap:30px}
-    .bezel{width:calc(100vw - 32px);padding:16px 16px 26px;border-radius:12px}
-    .screw{bottom:8px;width:9px;height:9px}.screw.l{left:12px}.screw.r{right:12px}
-    .rocker{width:150px;height:62px;flex-direction:row}
-    .half{border-radius:8px 3px 3px 8px}
-    .half.down{border-radius:3px 8px 8px 3px}
-    .half span{transform:rotate(-90deg)}
-    .hint{top:calc(100% + 8px)}
-    .rocker-wrap{margin-bottom:18px}
+    .pod{width:calc(100vw - 32px)}
+    .glass{width:72cqw}
+    .pod{width:calc(100vw - 32px);min-width:0}
+    .switch{width:110px;height:86px}
+    .hint{top:calc(100% + 14px)}
+    .rocker-wrap{margin-bottom:22px}
   }
   @media (prefers-reduced-motion:reduce){
     .scr{transition:none}.hint,.cur,.lbl em{animation:none}
@@ -158,7 +195,10 @@
 <main class="stage">
   <h1 class="sr">Ratronic, the MFA for the VW T3. Coming soon.</h1>
   <div class="dash">
-    <div class="bezel">
+    <div class="pod"><div class="pod-in">
+      <div class="blanks" aria-hidden="true"><i class="b s"></i><i class="b w"></i><i class="b s"></i></div>
+      <div class="blanks" aria-hidden="true"><i class="b s"></i><i class="b w"></i><i class="b s"></i></div>
+      <div class="surround"><div class="inner"><div class="window">
       <div class="glass" id="glass" tabindex="0" role="region" aria-label="Ratronic display. Use the buttons or arrow keys to change screens.">
         <div class="screen" id="screen">
 
@@ -204,25 +244,33 @@
             <div class="logo">RATRONIC</div>
             <p class="l1 glow">The MFA the VW T3 never got.</p>
             <p class="l2">Built by hand in Latvia. Arriving soon.</p>
-            <a href="mailto:ralfsvolis@gmail.com">ralfsvolis@gmail.com</a>
+            <p class="l3 glow">STAY TUNED<span class="cur"></span></p>
           </section>
 
         </div>
       </div>
+      </div>
       <i class="screw l"></i><i class="screw r"></i>
-    </div>
+      </div></div>
+    </div></div>
 
     <div class="rocker-wrap">
-      <div class="rocker">
-        <button type="button" class="half up" id="prev" aria-label="Previous screen"><span class="print">&#9650;</span></button>
-        <button type="button" class="half down" id="next" aria-label="Next screen"><span class="print">&#9660;</span></button>
+      <div class="switch">
+        <div class="rocker" id="rocker">
+          <div class="face" aria-hidden="true">
+            <span class="win"><svg viewBox="0 0 24 14"><rect x="3" y="2" width="18" height="10" rx="1.5"/><path d="M7 7h4M14 5.5v3"/></svg></span>
+            <span class="grip"></span>
+          </div>
+          <button type="button" class="half up" id="prev" aria-label="Previous screen"></button>
+          <button type="button" class="half down" id="next" aria-label="Next screen"></button>
+        </div>
       </div>
-      <p class="hint print" id="hint">&#9650; press</p>
+      <p class="hint print" id="hint">&#9650; press &#9660;</p>
     </div>
   </div>
 
   <div class="dots" id="dots" role="group" aria-label="Screens"></div>
-  <footer class="print">Ratronic &middot; MFA for the VW T3 &middot; Latvia<br><a href="mailto:ralfsvolis@gmail.com">ralfsvolis@gmail.com</a></footer>
+  <footer class="print">Ratronic &middot; MFA for the VW T3 &middot; Latvia</footer>
   <p class="sr" aria-live="polite" id="status"></p>
 </main>
 
@@ -302,9 +350,16 @@
     render();
   }
   function touched(){ hint.classList.add('gone'); }
-  function flash(btn){ btn.classList.add('pressed'); setTimeout(function(){ btn.classList.remove('pressed'); }, 140); }
-
+  var rocker = document.getElementById('rocker');
   var prev = document.getElementById('prev'), next = document.getElementById('next');
+  function tiltFor(btn){ return btn === prev ? 't-up' : 't-down'; }
+  function flash(btn){ var c = tiltFor(btn); rocker.classList.add(c); setTimeout(function(){ rocker.classList.remove(c); }, 160); }
+  [prev, next].forEach(function(btn){
+    btn.addEventListener('pointerdown', function(){ rocker.classList.add(tiltFor(btn)); });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function(ev){
+      btn.addEventListener(ev, function(){ rocker.classList.remove(tiltFor(btn)); });
+    });
+  });
   prev.addEventListener('click', function(){ touched(); go(booting ? 0 : idx - 1); });
   next.addEventListener('click', function(){ touched(); go(booting ? 0 : idx + 1); });
 
