@@ -1,0 +1,493 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ratronic Van Display</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A modern colour display for your classic VW van. See engine temperature, revs, battery and a clock on a crisp screen, check everything from your phone, and keep your original dashboard look.">
+<link rel="icon" href="assets/logo.png">
+<style>
+  :root{
+    --bg:#0b0a14; --surface:#15132a; --surface-2:#1d1a36; --line:#2c2850;
+    --text:#ece9f7; --muted:#a7a2c3; --brand:#ff3d8a; --accent:#ff8a3d; --ok:#5de0a2;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+  header img{height:44px;border-radius:8px}
+  header nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:15px}
+  header nav a:hover{color:var(--text)}
+  .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding:48px 0 32px}
+  .hero h1{font-size:clamp(34px,5vw,54px);line-height:1.05;margin:0 0 16px;letter-spacing:-.5px}
+  .hero h1 span{color:var(--brand)}
+  .hero p{color:var(--muted);font-size:18px;margin:0 0 26px}
+  .screen{background:#000;border:10px solid #1a1a1a;border-radius:14px;box-shadow:0 30px 80px rgba(255,61,138,.18),0 0 0 1px #333;overflow:hidden}
+  .screen img{display:block;width:100%}
+  .photo{border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(255,61,138,.18),0 0 0 1px var(--line)}
+  .photo img{display:block;width:100%}
+  .box{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+  .box ul{padding-left:18px;color:var(--muted);margin:0}
+  .box li{margin:8px 0}
+  .box .screen{max-width:420px}
+  .btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:10px;border:0;font-size:16px;cursor:pointer}
+  .btn:hover{filter:brightness(1.1)}
+  .price-tag{font-size:15px;color:var(--muted);margin-left:14px}
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  h2{font-size:30px;margin:0 0 8px;letter-spacing:-.3px}
+  .lead{color:var(--muted);margin:0 0 32px;max-width:640px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{margin:0 0 8px;font-size:18px}
+  .card p{margin:0;color:var(--muted);font-size:15px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative}
+  .step::before{counter-increment:step;content:counter(step);display:inline-block;width:32px;height:32px;line-height:32px;text-align:center;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;margin-bottom:12px}
+  .step h3{margin:0 0 8px;font-size:18px}
+  .step p{margin:0;color:var(--muted);font-size:15px}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:820px}
+  .plan{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column}
+  .plan.best{border-color:var(--brand);background:linear-gradient(180deg,#221a3a,var(--surface))}
+  .plan .tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  .plan h3{margin:6px 0 4px;font-size:24px}
+  .plan .price{font-size:40px;font-weight:800;margin:10px 0 2px}
+  .plan .price small{font-size:15px;color:var(--muted);font-weight:400}
+  .plan ul{padding-left:18px;margin:16px 0 24px;color:var(--muted);flex:1}
+  .plan li{margin:6px 0}
+  .plan .btn{text-align:center}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td{padding:10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  td:first-child{color:var(--muted);width:38%}
+  details{border-bottom:1px solid var(--line);padding:14px 0}
+  summary{cursor:pointer;font-weight:600}
+  details p{color:var(--muted);margin:10px 0 0}
+  details.tech{border:1px solid var(--line);border-radius:14px;padding:14px 20px;margin-top:8px}
+  details.tech table{margin-top:12px}
+  footer{padding:36px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+  .note{font-size:13px;color:var(--muted);margin-top:14px}
+  .thanks{display:none;background:#133a2a;border:1px solid var(--ok);color:#d7f7e8;border-radius:12px;padding:16px 20px;margin:12px 0 0}
+  .thanks.show{display:block}
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr;padding-top:24px}
+    .grid,.plans,.steps,.box{grid-template-columns:1fr}
+    header nav a{margin-left:14px}
+    header nav a.hide-sm{display:none}
+  }
+</style>
+<!-- RETRO STEREO THEME (test). Delete from here to "END RETRO STEREO THEME" to go back to the old look. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Doto:wght@700;900&family=Michroma&display=swap" rel="stylesheet">
+<style id="retro-theme">
+  :root{
+    --plastic:#1a1b1d; --plastic-hi:#27282b; --plastic-lo:#141517; --edge:#08090a;
+    --text:#e8e7e3; --muted:#9d9fa4; --led:#ff6a2a; --led-hot:#ffb08a;
+    --glow:0 0 4px rgba(255,106,42,.9),0 0 12px rgba(255,80,20,.55),0 0 26px rgba(255,60,10,.25);
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .6 0 0 0 0 .6 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  body{
+    background:var(--grain),radial-gradient(1400px 700px at 50% -15%,#2b2c2f 0%,transparent 70%),var(--plastic);
+    color:var(--text);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  a{color:var(--led)}
+
+  /* raised plastic panels */
+  .card,.step,.plan,details.tech{
+    background:var(--grain),linear-gradient(180deg,var(--plastic-hi),var(--plastic-lo));
+    border:1px solid var(--edge);border-radius:6px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.6),0 2px 0 #0b0b0c,0 12px 26px rgba(0,0,0,.55);
+  }
+  .card h3,.step h3{font-weight:500;letter-spacing:.02em}
+  .card p,.step p{color:var(--muted)}
+
+  /* grooves between sections */
+  section,footer{border-top:1px solid #0a0a0b;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+
+  /* orange display windows */
+  h2,.plan .price{
+    display:inline-block;font-family:"Share Tech Mono",ui-monospace,monospace;font-weight:400;
+    color:var(--led);text-shadow:var(--glow);letter-spacing:.06em;
+    background:radial-gradient(120% 140% at 50% 0%,#1d0d07,#070302 70%);
+    padding:6px 18px;border-radius:4px;border:1px solid #000;
+    box-shadow:inset 0 3px 8px rgba(0,0,0,.95),inset 0 0 0 1px rgba(255,106,42,.08),0 1px 0 rgba(255,255,255,.07);
+  }
+  h2{margin-bottom:16px;text-transform:uppercase;font-size:26px}
+  .plan .price{font-size:34px;padding:4px 16px}
+  .plan .price small{color:#a8532c;text-shadow:none}
+  .hero h1{font-weight:500;letter-spacing:-.5px}
+  .hero h1 span{color:var(--led);text-shadow:var(--glow)}
+  .hero p,.lead{color:var(--muted)}
+
+  /* backlit keys */
+  .btn,header nav a{
+    background:var(--grain),linear-gradient(180deg,#2e2f32,#17181a);
+    border:1px solid #050506;border-radius:5px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -2px 0 rgba(0,0,0,.55),0 3px 0 #050506,0 7px 14px rgba(0,0,0,.6);
+    transition:transform .06s,box-shadow .06s,color .15s,text-shadow .15s;
+  }
+  .btn{color:var(--led);text-shadow:var(--glow);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:14px;padding:13px 24px;position:relative}
+  .btn::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--led);box-shadow:var(--glow);margin-right:10px;vertical-align:middle;position:relative;top:-1px}
+  .btn:hover{filter:none;color:var(--led-hot)}
+  .btn:active,header nav a:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 1px 0 #050506,0 3px 6px rgba(0,0,0,.6)}
+  header nav a{display:inline-block;color:#d9d8d4;font-size:13px;padding:6px 12px;margin-left:10px}
+  header nav a:hover{color:var(--led);text-shadow:var(--glow)}
+
+  /* numbered steps look like preset buttons */
+  .step::before{
+    width:38px;height:38px;line-height:38px;border-radius:5px;
+    background:linear-gradient(180deg,#303134,#151618);color:var(--led);text-shadow:var(--glow);
+    font-family:"Share Tech Mono",monospace;font-size:20px;font-weight:400;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 2px 0 #050506,0 5px 10px rgba(0,0,0,.5);border:1px solid #050506;
+  }
+
+  /* pricing */
+  .plan .tag{color:var(--text);font-weight:500;letter-spacing:.18em}
+  .plan.best{border-color:#3a1a0d;background:var(--grain),linear-gradient(180deg,#2b2624,var(--plastic-lo))}
+  .plan.best .tag{color:var(--led);text-shadow:var(--glow)}
+  .plan ul{color:var(--muted)}
+
+  /* photos sit in a plastic bezel */
+  .photo{border:8px solid #121314;border-radius:8px;box-shadow:0 0 0 1px #000,inset 0 0 0 1px rgba(255,255,255,.05),0 1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.65)}
+
+  /* FAQ: indicator lamps like the stereo's mode dots */
+  details{border-bottom:1px solid #0a0a0b;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+  summary{list-style:none;font-weight:500}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid #cfd0d2;margin-right:12px;vertical-align:middle;position:relative;top:-1px;transition:all .15s}
+  details[open]>summary::before{background:var(--led);border-color:var(--led);box-shadow:var(--glow)}
+  details.tech{padding:14px 20px}
+  td{border-bottom:1px solid #2a2b2e}
+  footer{color:var(--muted)}
+
+  /* ===== late-90s head unit: soft-touch black, no trim ===== */
+  :root{
+    --red:#ff4a1c;
+    --red-glow:0 0 3px rgba(255,90,40,.95),0 0 10px rgba(255,60,20,.7),0 0 28px rgba(255,40,10,.35);
+    /* speckled mask so printed legends look pad-printed, not digital */
+    --print-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.1 1.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    --print:#e6e3da;
+  }
+
+  /* screen-printed legend */
+  .print,header.unit nav a{
+    color:var(--print);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.14em;
+    text-shadow:0 -1px 0 rgba(0,0,0,.55);
+    -webkit-mask-image:var(--print-mask);mask-image:var(--print-mask);
+  }
+
+  header.unit{
+    display:grid;grid-template-columns:92px 1fr 150px;grid-template-rows:auto auto;gap:16px 24px;align-items:center;
+    margin:28px 0 12px;padding:22px 26px;border-radius:16px;position:relative;
+    background:
+      radial-gradient(140% 90% at 50% -20%,rgba(255,255,255,.07),transparent 60%),
+      var(--grain),linear-gradient(180deg,#232427,#18191b 55%,#121314);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.7),
+      0 0 0 1px #000,
+      0 0 0 6px #0f1011,                    /* dash opening */
+      0 0 0 7px rgba(255,255,255,.045),
+      0 26px 50px rgba(0,0,0,.65);
+  }
+
+  /* volume knob: smooth cap, fine knurled skirt, backlit dot */
+  .knob{
+    grid-row:1 / span 2;width:80px;height:80px;border-radius:50%;justify-self:center;position:relative;
+    background:repeating-conic-gradient(#222326 0 2deg,#151618 2deg 4deg);
+    box-shadow:0 0 0 2px #070708,0 0 0 3px rgba(255,255,255,.05),0 7px 14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .knob::before{
+    content:"";position:absolute;inset:9px;border-radius:50%;
+    background:radial-gradient(circle at 50% 30%,#3a3b3f,#222326 55%,#18191b);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -2px 4px rgba(0,0,0,.6),0 1px 2px rgba(0,0,0,.8);
+  }
+  .knob::after{
+    content:"";position:absolute;left:50%;top:15px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;
+    background:var(--red);box-shadow:var(--red-glow);transform-origin:50% 25px;transform:rotate(-40deg);
+  }
+
+  .display{
+    grid-column:2;display:block;text-decoration:none;position:relative;overflow:hidden;
+    padding:10px 22px 14px;border-radius:6px;
+    background:
+      linear-gradient(115deg,rgba(255,255,255,.06) 0 28%,transparent 28.5%),             /* smoked glass glare */
+      radial-gradient(circle,rgba(255,74,28,.10) 1.1px,transparent 1.6px) 0 0/7px 7px,   /* unlit dots */
+      radial-gradient(120% 160% at 50% 0%,#1c0805,#060201 70%);
+    box-shadow:0 0 0 1px #000,0 0 0 3px #0c0c0d,0 1px 0 3px rgba(255,255,255,.06),inset 0 4px 12px rgba(0,0,0,.95);
+  }
+  .d-top{display:flex;gap:16px;font:11px/1 "Share Tech Mono",monospace;color:var(--red);opacity:.85;text-shadow:var(--red-glow);letter-spacing:.12em}
+  .d-top .d-st{margin-left:auto}
+  .d-name{
+    display:block;font-family:"Doto","Share Tech Mono",monospace;font-weight:900;
+    font-size:clamp(46px,9.2vw,104px);line-height:1;letter-spacing:.06em;margin-top:6px;white-space:nowrap;
+    color:var(--red);text-shadow:var(--red-glow);
+  }
+  .d-name .blink{opacity:.15}
+
+  /* right side: function lamps + MFA key */
+  .side{grid-column:3;grid-row:1 / span 2;display:flex;flex-direction:column;gap:16px;align-self:stretch;justify-content:center}
+  .lamps{display:flex;flex-direction:column;gap:4px}
+  .lamp{background:none;border:0;padding:4px 0;text-align:left;cursor:pointer;font-size:10.5px;display:flex;align-items:center;gap:10px}
+  .lamp i{flex:none;width:6px;height:6px;border-radius:50%;background:#3b1308;box-shadow:0 0 0 1.5px #070708,inset 0 1px 1px rgba(0,0,0,.6);transition:background .12s,box-shadow .12s}
+  .lamp.on i{background:#ff6a3a;box-shadow:0 0 0 1.5px #070708,var(--red-glow)}
+  .lamp:hover{color:#fff}
+
+  /* realistic keys: sit in a well, top-edge highlight, side wall, travel when pressed */
+  .key,header.unit nav a{
+    position:relative;cursor:pointer;border:0;border-radius:6px;
+    background:
+      radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.09),transparent 70%),
+      linear-gradient(180deg,#3a3b3f 0%,#2b2c2f 7%,#232427 55%,#1c1d1f 93%,#141516 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.17),inset 0 -1px 0 rgba(0,0,0,.55),
+      inset 1px 0 0 rgba(255,255,255,.035),inset -1px 0 0 rgba(0,0,0,.35),
+      0 0 0 1px #050506,
+      0 2px 0 1px #0b0c0d,
+      0 4px 8px rgba(0,0,0,.55);
+    transition:transform .05s,box-shadow .05s;
+  }
+  .key:active,header.unit nav a:active{
+    transform:translateY(2px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 2px 3px rgba(0,0,0,.35),0 0 0 1px #050506,0 0 0 1px #0b0c0d,0 1px 2px rgba(0,0,0,.5);
+  }
+  .mfa-key{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-size:12px;width:100%}
+  .mfa-key .print{font-size:12px}
+  .mfa-key .arrows{font-size:8px;letter-spacing:.2em;opacity:.8}
+  .mfa-key:hover .print{color:#ffd2bd;text-shadow:0 0 6px rgba(255,90,40,.7)}
+
+  header.unit nav{
+    grid-column:2;display:flex;flex-wrap:wrap;gap:10px;padding:8px;border-radius:9px;
+    background:#0d0e0f;box-shadow:inset 0 2px 4px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.05);
+  }
+  header.unit nav a{margin:0;flex:1 1 auto;text-align:center;font-size:10.5px;padding:10px 10px 9px;text-decoration:none}
+  header.unit nav a:hover{color:#ffd2bd;text-shadow:0 0 6px rgba(255,90,40,.7)}
+
+  /* ===== buy keys: convex orange rubber, like the car phone's Snd ===== */
+  .btn{
+    background:
+      radial-gradient(110% 80% at 50% 0%,rgba(255,215,190,.55),transparent 60%),
+      linear-gradient(180deg,#f97b3c,#e2571c 60%,#c4440f);
+    color:#2a0e02;text-shadow:0 1px 0 rgba(255,215,190,.4);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;
+    border:0;border-radius:8px;
+    box-shadow:inset 0 1px 0 rgba(255,235,215,.6),inset 0 -2px 3px rgba(110,25,0,.45),0 0 0 1px #3b1202,0 3px 0 1px #250b01,0 7px 14px rgba(0,0,0,.55);
+  }
+  .btn::before{display:none}
+  .btn .eur{font-weight:700;font-size:inherit}
+  .btn:hover{color:#1a0700}
+  .btn:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,235,215,.4),inset 0 2px 4px rgba(110,25,0,.4),0 0 0 1px #3b1202,0 0 0 1px #250b01,0 2px 4px rgba(0,0,0,.5)}
+  /* pale rubber keypad keys for the step numbers */
+  .step::before{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:17px;color:#2a2d29;text-shadow:0 1px 0 rgba(255,255,255,.5);
+    background:radial-gradient(110% 80% at 50% 0%,rgba(255,255,255,.7),transparent 60%),linear-gradient(180deg,#dfe3da,#b9c0b3);
+    border:0;border-radius:8px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.8),inset 0 -2px 3px rgba(0,0,0,.18),0 0 0 1px #111211,0 2px 0 1px #0b0c0b,0 5px 10px rgba(0,0,0,.5);
+  }
+
+  /* headings */
+  .hero h1{font-family:"Michroma","Helvetica Neue",sans-serif;font-weight:400;font-size:clamp(28px,4vw,44px);line-height:1.2;letter-spacing:0}
+  .card h3,.step h3,.plan h3{font-family:"Michroma",sans-serif;font-weight:400;font-size:15px;letter-spacing:.03em}
+  .plan h3{font-size:18px}
+
+  @media (max-width:760px){
+    header.unit{grid-template-columns:1fr;padding:14px;margin:18px 0 8px;border-radius:12px}
+    .knob{display:none}
+    .display,header.unit nav{grid-column:1}
+    .side{grid-column:1;grid-row:auto;flex-direction:row;align-items:center;gap:12px}
+    .lamps{flex-direction:row;flex-wrap:wrap;gap:2px 12px;flex:1}
+    .lamp{font-size:9px;gap:6px;letter-spacing:.1em}
+    .mfa-key{width:auto;flex:none;gap:10px}
+    .d-name{font-size:clamp(34px,12vw,60px)}
+    header.unit nav{gap:8px;padding:6px}
+    header.unit nav a{font-size:9.5px;padding:9px 6px 8px}
+    h2{font-size:21px}
+  }
+</style>
+<!-- END RETRO STEREO THEME -->
+</head>
+<body>
+<div class="wrap">
+  <header class="unit">
+    <div class="knob" aria-hidden="true"></div>
+    <a class="display" href="index.html" aria-label="Ratronic home">
+      <span class="d-top"><span id="dLabel">MFA</span><span class="d-st">T3</span></span>
+      <span class="d-name" id="dName">RATRONIC</span>
+    </a>
+    <div class="side">
+      <div class="lamps" role="group" aria-label="Display functions">
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Uhr</button>
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Temp</button>
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Drehzahl</button>
+        <button type="button" class="lamp print" aria-pressed="false"><i></i>Batterie</button>
+      </div>
+      <button type="button" class="key mfa-key" id="mfaKey" aria-label="Next display function"><span class="print">MFA</span><span class="arrows print">&#9650;&#9660;</span></button>
+    </div>
+    <nav>
+      <a href="#features" class="hide-sm">What it does</a>
+      <a href="#install" class="hide-sm">Fitting</a>
+      <a href="#faq">Questions</a>
+      <a href="docs.html">Docs</a>
+      <a href="#buy">Buy</a>
+    </nav>
+  </header>
+
+  <div class="thanks" id="thanks"><strong>Thank you!</strong> Your receipt is on its way by email. We will send you a tracking number as soon as your package is on its way, usually within a few days.</div>
+
+  <div class="hero">
+    <div>
+      <h1>The MFA the <span>VW T3</span> never got</h1>
+      <p>In the 80s VW gave the Golf and Passat a multi-function display. The T3 never had one. This is that idea, forty years on, a modern bright colour screen, but keeping the retro vibe, that goes in the clock slot, shows coolant temperature, revs, fuel consumption, battery and the time, and still looks like it rolled out of Hanover with the van. We built it for our own van, for long trips, to catch an engine problem while it is still a small one, not when the van is on the hard shoulder. Friends wanted one, so here it is.</p>
+      <a class="btn" href="#buy">Get one</a><span class="price-tag">199 &euro;, built and shipped from Latvia</span>
+    </div>
+    <div class="photo"><img src="assets/dash-1280.jpg" srcset="assets/dash-800.jpg 800w, assets/dash-1280.jpg 1280w" sizes="(max-width:760px) 100vw, 480px" alt="The Ratronic display fitted in a VW T3 dashboard, showing the clock"></div>
+  </div>
+
+  <section id="features">
+    <h2>What it does</h2>
+    <p class="lead">An old van tells you almost nothing. This fills in the gaps, without making the dash look like it came out of a different car.</p>
+    <div class="grid">
+      <div class="card"><h3>Catches trouble early</h3><p>Coolant temperature, revs, fuel consumption and whatever else the engine's own electronics know, read from the diagnostic socket. A temperature creeping up over an hour is easy to spot on a screen and impossible to feel from the driver's seat.</p></div>
+      <div class="card"><h3>Plug and play</h3><p>It is the same size as the original dashboard clock and goes into the same hole. Pull the old clock out, push the display in, plug in the connectors. No cutting, no drilling, no modification, and the old clock goes back in whenever you want.</p></div>
+      <div class="card"><h3>Looks like VW made it</h3><p>The display comes with a button for flicking through the screens, designed to match the original T3 dash switches in shape, feel and finish. Sitting in the van, nothing about it looks aftermarket.</p></div>
+      <div class="card"><h3>Phone app, free updates</h3><p>The same numbers live on your phone, plus the settings: what goes on which screen, brightness. Bluetooth only, nothing to sign up for. We keep working on it, and every improvement reaches your display through the app.</p></div>
+      <div class="card"><h3>A clock, finally</h3><p>Most of the time it is just a nice clock, with a background picture of your choice. Deep black screen, readable in sunlight, dims itself when you switch off. It stays on with the engine off and is correct when you come back, which is more than the original ever managed.</p></div>
+      <div class="card"><h3>Battery</h3><p>Voltage and whether the alternator is charging. The sensor module measures right at the battery, so a tired battery shows up before it strands you somewhere.</p></div>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2>Fitting it</h2>
+    <p class="lead">An hour, maybe two. Nothing is cut, drilled or modified, and it comes out again without a trace. The full wiring guides are on the <a href="docs.html">documentation page</a>, so you can read them before you order.</p>
+    <div class="steps">
+      <div class="step"><h3>Swap the clock</h3><p>Take the original clock out of the dash and push the display into the same opening. The button goes in next to it and looks like it was always there.</p></div>
+      <div class="step"><h3>Plug in</h3><p>Power and the van's diagnostic socket. The sensor module, if you have it, lives near the battery and connects with the plugs in the box.</p></div>
+      <div class="step"><h3>Pair your phone</h3><p>Install the app, connect, choose what you want on the screen. That is it.</p></div>
+    </div>
+  </section>
+
+  <section id="buy">
+    <h2>Pricing</h2>
+    <p class="lead">Two versions. Prices include VAT, shipping is added at checkout depending on where you are. Card or PayPal.</p>
+    <div class="plans">
+      <div class="plan">
+        <div class="tag">Display</div>
+        <h3>Van Display</h3>
+        <div class="price">199 &euro; <small>+ shipping</small></div>
+        <ul>
+          <li>The display unit, fits the original clock opening</li>
+          <li>OEM-style button that matches the T3 dash</li>
+          <li>Engine readings from the diagnostic socket</li>
+          <li>Clock with your own background</li>
+          <li>Phone app and updates</li>
+          <li>Cables and plugs to fit it</li>
+        </ul>
+        <a class="btn" href="https://buy.stripe.com/test_3cI7sM3cM7hh8qk4ya18c00">Buy display &middot; 199 <span class="eur">&euro;</span></a>
+      </div>
+      <div class="plan best">
+        <div class="tag">Display + module</div>
+        <h3>Display + Sensor Module</h3>
+        <div class="price">249 &euro; <small>+ shipping</small></div>
+        <ul>
+          <li>Everything above</li>
+          <li>Sensor module for extra readings, such as oil or outside temperature</li>
+          <li>Battery measured at the battery</li>
+          <li>Knows for certain when the ignition is on</li>
+          <li>Works on engines with no diagnostic socket too</li>
+        </ul>
+        <a class="btn" href="https://buy.stripe.com/test_3cIcN6cNmcBB4a48Oq18c01">Buy bundle &middot; 249 <span class="eur">&euro;</span></a>
+      </div>
+    </div>
+    <p class="note">Each one is assembled and tested by hand, in small batches, so there may be a short wait. Not sure which you need? <a href="mailto:ralfsvolis@gmail.com">Write to us</a> and tell us about your van.</p>
+  </section>
+
+  <section id="box">
+    <h2>In the box</h2>
+    <p class="lead">The Display + Sensor Module bundle, as it arrives. Nothing here is a render; this is the kit on our bench.</p>
+    <div class="box">
+      <ul>
+        <li>The display, ready to go in place of the original clock</li>
+        <li>OEM-style button for switching screens</li>
+        <li>Sensor module in a sealed housing with two weatherproof plugs</li>
+        <li>Matching plugs and pins for your own wiring</li>
+        <li>Cable between the display and the van</li>
+        <li>Power and diagnostic lead</li>
+      </ul>
+      <div class="photo"><img src="assets/kit-1600.jpg" srcset="assets/kit-800.jpg 800w, assets/kit-1600.jpg 1600w" sizes="(max-width:760px) 100vw, 480px" alt="Ratronic Van Display kit: display, sensor module, connectors and cables"></div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>Questions</h2>
+    <details><summary>What do you mean by MFA?</summary><p>The multi-function display VW put in the Golf and Passat of the time: a little readout of the clock, outside temperature, consumption and oil temperature. The T3 never got one from the factory. This gives the van the same kind of thing in the clock slot, reading from the engine's own electronics, plus revs, battery and whatever else you choose. With the sensor module you can add outside and oil temperature sensors too.</p></details>
+    <details><summary>Will it work with my van?</summary><p>We made it for the VW T3 and it works with the engines most of them run today, including the usual swaps from the 1990s and 2000s. If you are not sure, email us what engine you have and we will tell you honestly. With the sensor module it is useful even on older engines with no diagnostic socket.</p></details>
+    <details><summary>Do I need to be good with electronics?</summary><p>No. Everything plugs in with the supplied connectors. If you can fit a car radio, you can fit this. Have a look at the <a href="docs.html">wiring guides</a> if you want to see exactly what goes where.</p></details>
+    <details><summary>Does it need internet or a SIM card?</summary><p>No. The display and your phone talk directly over Bluetooth. Updates download to your phone when it has internet and are passed on next time you are in the van.</p></details>
+    <details><summary>Is there an iPhone app?</summary><p>Android now. The iPhone app is in progress, and we will say so here when it is ready rather than promise a date.</p></details>
+    <details><summary>Will it drain my battery?</summary><p>No. With the engine off it draws about as much as a car clock.</p></details>
+    <details><summary>How long does shipping take?</summary><p>We ship within a few working days from Latvia. Within the EU expect 3 to 7 days, further away 1 to 3 weeks. You get a tracking number by email.</p></details>
+    <details><summary>What if something goes wrong?</summary><p>Every unit is tested before it ships, and there is a 2-year warranty. Most problems we can fix with an update through the app. A hardware fault gets repaired or replaced, no arguing.</p></details>
+    <details><summary>Who is behind this?</summary><p>A small team in Latvia, electronics engineers with a T3 and too many ideas. Ratronic is the name we put on the boards. If you write, it is one of us who answers, not a help desk.</p></details>
+
+    <details class="tech"><summary>Technical details, for those who want them</summary>
+      <table>
+        <tr><td>Display</td><td>536 x 240 AMOLED, adjustable brightness, automatic dimming with ignition off</td></tr>
+        <tr><td>Engine data</td><td>K-line, KWP1281 protocol (VW/Audi ECUs with the 2-pin or OBD2 diagnostic socket)</td></tr>
+        <tr><td>Outputs</td><td>Tachometer signal output</td></tr>
+        <tr><td>Sensor module</td><td>LIN bus link, analog inputs, battery voltage, ignition sense</td></tr>
+        <tr><td>Phone link</td><td>Bluetooth Low Energy, Android app</td></tr>
+        <tr><td>Power</td><td>12 V vehicle supply</td></tr>
+        <tr><td>Updates</td><td>Over the air from the app, with automatic rollback; display and sensor module</td></tr>
+      </table>
+    </details>
+  </section>
+
+  <footer>
+    &copy; 2026 Ratronic &middot; Latvia &middot; <a href="mailto:ralfsvolis@gmail.com">ralfsvolis@gmail.com</a>
+  </footer>
+</div>
+<script>
+  if (new URLSearchParams(location.search).get('paid') === '1') {
+    document.getElementById('thanks').classList.add('show');
+    history.replaceState(null, '', location.pathname);
+  }
+
+  // MFA key: cycles the header display through demo readings, like the real unit
+  (function(){
+    var nameEl = document.getElementById('dName'), labEl = document.getElementById('dLabel');
+    var key = document.getElementById('mfaKey');
+    if (!nameEl || !key) return;
+    var lamps = Array.prototype.slice.call(document.querySelectorAll('.lamp'));
+    var live = {temp: 88, rpm: 850, bat: 14.1};
+    function pad(n){ return (n < 10 ? '0' : '') + n; }
+    var modes = [
+      {label: 'UHR', value: function(){ var d = new Date(); return pad(d.getHours()) + '<span class="' + (d.getSeconds() % 2 ? 'blink' : '') + '">:</span>' + pad(d.getMinutes()); }},
+      {label: 'KÜHLMITTEL', value: function(){ return Math.round(live.temp) + '°C'; }},
+      {label: 'DREHZAHL 1/MIN', value: function(){ return String(Math.round(live.rpm / 10) * 10); }},
+      {label: 'BATTERIE', value: function(){ return live.bat.toFixed(1) + ' V'; }}
+    ];
+    var current = -1, idle;
+    function draw(){
+      if (current < 0) { nameEl.textContent = 'RATRONIC'; labEl.textContent = 'MFA'; }
+      else { nameEl.innerHTML = modes[current].value(); labEl.textContent = modes[current].label; }
+      lamps.forEach(function(b, k){ b.classList.toggle('on', k === current); b.setAttribute('aria-pressed', k === current); });
+    }
+    function show(n){
+      current = n; draw();
+      clearTimeout(idle);
+      if (current >= 0) idle = setTimeout(function(){ show(-1); }, 10000);   // back to RATRONIC after 10 s
+    }
+    key.addEventListener('click', function(){ show(current + 1 >= modes.length ? -1 : current + 1); });
+    lamps.forEach(function(b, k){ b.addEventListener('click', function(){ show(k); }); });
+    setInterval(function(){
+      live.temp += (88 - live.temp) * 0.2 + (Math.random() - 0.5) * 0.8;
+      live.rpm = 850 + (Math.random() - 0.5) * 60;
+      live.bat = 14.1 + (Math.random() - 0.5) * 0.1;
+      if (current >= 0) draw();
+    }, 1000);
+  })();
+</script>
+</body>
+</html>
