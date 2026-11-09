@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
 <title>Ratronic Documentation</title>
 <meta name="description" content="Wiring and installation guides for the Ratronic Van Display and Sensor Module.">
-<link rel="icon" href="assets/logo.png">
+<link rel="icon" href="../assets/logo.png">
 <style>
   :root{
     --bg:#0b0a14; --surface:#15132a; --line:#2c2850;
@@ -47,7 +48,7 @@
 <body>
 <div class="wrap">
   <header>
-    <a href="index.html"><img src="assets/logo.png" alt="Ratronic"></a>
+    <a href="index.html"><img src="../assets/logo.png" alt="Ratronic"></a>
     <nav>
       <a href="index.html#features" class="hide-sm">What it does</a>
       <a href="index.html#install" class="hide-sm">Fitting</a>
@@ -62,15 +63,15 @@
 
   <div class="layout">
     <div class="list" id="list">
-      <button class="doc active" data-src="docs/display-wiring.pdf">
+      <button class="doc active" data-src="../docs/display-wiring.pdf">
         <strong>Display wiring</strong>
         <span>Plugs on the back of the display, the button, and the four ways to connect it: on its own, with OBD2, with the sensor module, or both.</span>
-        <small><a href="docs/display-wiring.pdf" download>Download PDF</a></small>
+        <small><a href="../docs/display-wiring.pdf" download>Download PDF</a></small>
       </button>
-      <button class="doc" data-src="docs/sensor-module-wiring.pdf">
+      <button class="doc" data-src="../docs/sensor-module-wiring.pdf">
         <strong>Sensor module wiring</strong>
         <span>Pin-by-pin guide to the two plugs: power, batteries, temperature and pressure sensors, exhaust probes and the switched outputs.</span>
-        <small><a href="docs/sensor-module-wiring.pdf" download>Download PDF</a></small>
+        <small><a href="../docs/sensor-module-wiring.pdf" download>Download PDF</a></small>
       </button>
     </div>
     <div class="viewer" id="viewer"></div>
@@ -98,7 +99,7 @@
     });
   });
   var wanted = location.hash.replace('#','');
-  var start = wanted ? 'docs/' + wanted + '.pdf' : buttons[0].dataset.src;
+  var start = wanted ? '../docs/' + wanted + '.pdf' : buttons[0].dataset.src;
   if (![].some.call(buttons, function(b){ return b.dataset.src === start; })) start = buttons[0].dataset.src;
   show(start);
 </script>
