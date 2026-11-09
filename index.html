@@ -76,11 +76,200 @@
     header nav a.hide-sm{display:none}
   }
 </style>
+<!-- RETRO STEREO THEME (test). Delete from here to "END RETRO STEREO THEME" to go back to the old look. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Doto:wght@700;900&family=Michroma&display=swap" rel="stylesheet">
+<style id="retro-theme">
+  :root{
+    --plastic:#1a1b1d; --plastic-hi:#27282b; --plastic-lo:#141517; --edge:#08090a;
+    --text:#e8e7e3; --muted:#9d9fa4; --led:#ff6a2a; --led-hot:#ffb08a;
+    --glow:0 0 4px rgba(255,106,42,.9),0 0 12px rgba(255,80,20,.55),0 0 26px rgba(255,60,10,.25);
+    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .6 0 0 0 0 .6 0 0 0 0 .6 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  body{
+    background:var(--grain),radial-gradient(1400px 700px at 50% -15%,#2b2c2f 0%,transparent 70%),var(--plastic);
+    color:var(--text);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  a{color:var(--led)}
+
+  /* raised plastic panels */
+  .card,.step,.plan,details.tech{
+    background:var(--grain),linear-gradient(180deg,var(--plastic-hi),var(--plastic-lo));
+    border:1px solid var(--edge);border-radius:6px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.6),0 2px 0 #0b0b0c,0 12px 26px rgba(0,0,0,.55);
+  }
+  .card h3,.step h3{font-weight:500;letter-spacing:.02em}
+  .card p,.step p{color:var(--muted)}
+
+  /* grooves between sections */
+  section,footer{border-top:1px solid #0a0a0b;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+
+  /* orange display windows */
+  h2,.plan .price{
+    display:inline-block;font-family:"Share Tech Mono",ui-monospace,monospace;font-weight:400;
+    color:var(--led);text-shadow:var(--glow);letter-spacing:.06em;
+    background:radial-gradient(120% 140% at 50% 0%,#1d0d07,#070302 70%);
+    padding:6px 18px;border-radius:4px;border:1px solid #000;
+    box-shadow:inset 0 3px 8px rgba(0,0,0,.95),inset 0 0 0 1px rgba(255,106,42,.08),0 1px 0 rgba(255,255,255,.07);
+  }
+  h2{margin-bottom:16px;text-transform:uppercase;font-size:26px}
+  .plan .price{font-size:34px;padding:4px 16px}
+  .plan .price small{color:#a8532c;text-shadow:none}
+  .hero h1{font-weight:500;letter-spacing:-.5px}
+  .hero h1 span{color:var(--led);text-shadow:var(--glow)}
+  .hero p,.lead{color:var(--muted)}
+
+  /* backlit keys */
+  .btn,header nav a{
+    background:var(--grain),linear-gradient(180deg,#2e2f32,#17181a);
+    border:1px solid #050506;border-radius:5px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.13),inset 0 -2px 0 rgba(0,0,0,.55),0 3px 0 #050506,0 7px 14px rgba(0,0,0,.6);
+    transition:transform .06s,box-shadow .06s,color .15s,text-shadow .15s;
+  }
+  .btn{color:var(--led);text-shadow:var(--glow);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:14px;padding:13px 24px;position:relative}
+  .btn::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--led);box-shadow:var(--glow);margin-right:10px;vertical-align:middle;position:relative;top:-1px}
+  .btn:hover{filter:none;color:var(--led-hot)}
+  .btn:active,header nav a:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 1px 0 #050506,0 3px 6px rgba(0,0,0,.6)}
+  header nav a{display:inline-block;color:#d9d8d4;font-size:13px;padding:6px 12px;margin-left:10px}
+  header nav a:hover{color:var(--led);text-shadow:var(--glow)}
+
+  /* numbered steps look like preset buttons */
+  .step::before{
+    width:38px;height:38px;line-height:38px;border-radius:5px;
+    background:linear-gradient(180deg,#303134,#151618);color:var(--led);text-shadow:var(--glow);
+    font-family:"Share Tech Mono",monospace;font-size:20px;font-weight:400;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 2px 0 #050506,0 5px 10px rgba(0,0,0,.5);border:1px solid #050506;
+  }
+
+  /* pricing */
+  .plan .tag{color:var(--text);font-weight:500;letter-spacing:.18em}
+  .plan.best{border-color:#3a1a0d;background:var(--grain),linear-gradient(180deg,#2b2624,var(--plastic-lo))}
+  .plan.best .tag{color:var(--led);text-shadow:var(--glow)}
+  .plan ul{color:var(--muted)}
+
+  /* photos sit in a plastic bezel */
+  .photo{border:8px solid #121314;border-radius:8px;box-shadow:0 0 0 1px #000,inset 0 0 0 1px rgba(255,255,255,.05),0 1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.65)}
+
+  /* FAQ: indicator lamps like the stereo's mode dots */
+  details{border-bottom:1px solid #0a0a0b;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+  summary{list-style:none;font-weight:500}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;border:1.5px solid #cfd0d2;margin-right:12px;vertical-align:middle;position:relative;top:-1px;transition:all .15s}
+  details[open]>summary::before{background:var(--led);border-color:var(--led);box-shadow:var(--glow)}
+  details.tech{padding:14px 20px}
+  td{border-bottom:1px solid #2a2b2e}
+  footer{color:var(--muted)}
+
+  /* ===== 90s luxury: head unit in a walnut bezel ===== */
+  :root{
+    --wood:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='220'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0035 .11' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 .7 .06 0 0 0 .32 .03 0 0 0 .14 .01 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+    --red:#ff4a1c;
+    --red-glow:0 0 3px rgba(255,90,40,.95),0 0 10px rgba(255,60,20,.7),0 0 28px rgba(255,40,10,.35);
+  }
+  header.unit{
+    display:grid;grid-template-columns:104px 1fr 128px;grid-template-rows:auto auto;gap:14px 22px;align-items:center;
+    margin:30px 0 12px;padding:20px 24px;border-radius:10px;position:relative;
+    background:var(--grain),linear-gradient(180deg,#232427,#151618);
+    border:1px solid #000;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.1),inset 0 -2px 0 rgba(0,0,0,.6),
+      0 30px 60px rgba(0,0,0,.6);
+  }
+  /* walnut bezel drawn behind the faceplate */
+  header.unit::before{
+    content:"";position:absolute;inset:-16px;border-radius:18px;z-index:-1;
+    background:linear-gradient(180deg,rgba(255,225,190,.22),rgba(255,255,255,0) 30%,rgba(0,0,0,.3)),var(--wood),#2e1407;
+    background-size:auto,700px 220px,auto;
+    box-shadow:0 0 0 1px #1a0c04,inset 0 1px 0 rgba(255,230,200,.35),0 24px 50px rgba(0,0,0,.7);
+  }
+  .wrap{position:relative;z-index:0}
+
+  .knob{
+    grid-row:1 / span 2;width:96px;height:96px;border-radius:50%;justify-self:center;position:relative;
+    background:radial-gradient(circle at 50% 38%,#3a3b3f 0%,#1d1e20 55%,#0e0f10 100%);
+    box-shadow:0 0 0 3px #0b0b0c,0 0 0 4px rgba(255,255,255,.06),0 8px 16px rgba(0,0,0,.7),inset 0 2px 1px rgba(255,255,255,.12);
+  }
+  .knob::before{ /* knurled grip */
+    content:"";position:absolute;inset:4px;border-radius:50%;
+    background:repeating-conic-gradient(rgba(255,255,255,.07) 0 4deg,rgba(0,0,0,.25) 4deg 8deg);
+    -webkit-mask:radial-gradient(circle,transparent 62%,#000 63%);mask:radial-gradient(circle,transparent 62%,#000 63%);
+  }
+  .knob::after{ /* pointer */
+    content:"";position:absolute;left:50%;top:14px;width:3px;height:16px;margin-left:-1.5px;border-radius:2px;
+    background:#f2efe8;box-shadow:0 0 4px rgba(255,255,255,.35);transform-origin:50% 34px;transform:rotate(-35deg);
+  }
+
+  .display{
+    grid-column:2;display:block;text-decoration:none;position:relative;overflow:hidden;
+    padding:10px 22px 14px;border-radius:5px;border:1px solid #000;
+    background:
+      radial-gradient(circle,rgba(255,74,28,.10) 1.1px,transparent 1.6px) 0 0/7px 7px,  /* unlit dots */
+      linear-gradient(180deg,rgba(255,255,255,.07),transparent 30%),                    /* glass */
+      radial-gradient(120% 160% at 50% 0%,#1c0805,#060201 70%);
+    box-shadow:inset 0 4px 12px rgba(0,0,0,.95),0 1px 0 rgba(255,255,255,.08);
+  }
+  .d-top{display:flex;gap:16px;font:11px/1 "Share Tech Mono",monospace;color:var(--red);opacity:.85;text-shadow:var(--red-glow);letter-spacing:.12em}
+  .d-top .d-st{margin-left:auto}
+  .d-name{
+    display:block;font-family:"Doto","Share Tech Mono",monospace;font-weight:900;
+    font-size:clamp(46px,9.2vw,104px);line-height:1;letter-spacing:.06em;margin-top:6px;
+    color:var(--red);text-shadow:var(--red-glow);
+  }
+
+  .modes{grid-column:3;grid-row:1 / span 2;display:flex;flex-direction:column;gap:9px;font:13px/1 "Helvetica Neue",Arial,sans-serif;color:#e9e7e1}
+  .modes span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;border:1.5px solid #d6d4cf;margin-right:9px;vertical-align:-1px}
+  .modes span.on::before{background:var(--red);border-color:var(--red);box-shadow:var(--red-glow)}
+
+  header.unit nav{grid-column:2;display:flex;flex-wrap:wrap;gap:10px}
+  header.unit nav a{margin:0;flex:1 1 auto;text-align:center;font-family:"Michroma",sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:9px 10px}
+
+  /* ===== car-phone keys ===== */
+  /* orange "Snd" key for buying */
+  .btn{
+    background:linear-gradient(180deg,#ff8a4a,#e85a1f 55%,#c9460f);
+    color:#2b1003;text-shadow:0 1px 0 rgba(255,220,190,.45);
+    border:1px solid #5a1d05;border-radius:7px;font-family:"Michroma",sans-serif;font-size:12px;letter-spacing:.1em;
+    box-shadow:inset 0 1px 0 rgba(255,230,200,.6),inset 0 -2px 0 rgba(120,30,0,.5),0 3px 0 #3a1203,0 8px 16px rgba(0,0,0,.6),0 0 22px rgba(255,100,40,.18);
+  }
+  .btn::before{display:none}
+  .btn .eur{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:14px}
+  .btn:hover{color:#1a0800;background:linear-gradient(180deg,#ff9a5e,#f0662a 55%,#d24f15)}
+  /* pale rubber keypad keys for the step numbers */
+  .step::before{
+    font-family:"Michroma",sans-serif;font-size:16px;color:#2a2d29;text-shadow:0 1px 0 rgba(255,255,255,.5);
+    background:linear-gradient(180deg,#e4e8df,#bfc6b9);border:1px solid #1a1c1a;border-radius:8px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 0 rgba(0,0,0,.15),0 2px 0 #0b0c0b,0 0 14px rgba(200,230,190,.12);
+  }
+
+  /* printed-on-the-faceplate type for headings */
+  .hero h1{font-family:"Michroma","Helvetica Neue",sans-serif;font-weight:400;font-size:clamp(28px,4vw,44px);line-height:1.2;letter-spacing:0}
+  .card h3,.step h3,.plan h3{font-family:"Michroma",sans-serif;font-weight:400;font-size:15px;letter-spacing:.03em}
+  .plan h3{font-size:18px}
+
+  @media (max-width:760px){
+    header.unit{grid-template-columns:1fr;padding:14px;margin:18px 0 8px}
+    .knob,.modes{display:none}
+    .display,header.unit nav{grid-column:1}
+    .d-name{font-size:clamp(34px,12vw,60px)}
+    header.unit nav{gap:8px}
+    header.unit nav a{font-size:10px;padding:8px 6px}
+    h2{font-size:21px}
+  }
+</style>
+<!-- END RETRO STEREO THEME -->
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <a href="index.html"><img src="assets/logo.png" alt="Ratronic"></a>
+  <header class="unit">
+    <div class="knob" aria-hidden="true"></div>
+    <a class="display" href="index.html" aria-label="Ratronic home">
+      <span class="d-top"><span>MFA</span><span>T3</span><span class="d-st">ST</span></span>
+      <span class="d-name">RATRONIC</span>
+    </a>
+    <div class="modes" aria-hidden="true">
+      <span class="on">Uhr</span><span>Temp</span><span>Drehzahl</span><span>Batterie</span>
+    </div>
     <nav>
       <a href="#features" class="hide-sm">What it does</a>
       <a href="#install" class="hide-sm">Fitting</a>
@@ -140,7 +329,7 @@
           <li>Phone app and updates</li>
           <li>Cables and plugs to fit it</li>
         </ul>
-        <a class="btn" href="https://buy.stripe.com/test_3cI7sM3cM7hh8qk4ya18c00">Buy display &middot; 199 &euro;</a>
+        <a class="btn" href="https://buy.stripe.com/test_3cI7sM3cM7hh8qk4ya18c00">Buy display &middot; 199 <span class="eur">&euro;</span></a>
       </div>
       <div class="plan best">
         <div class="tag">Display + module</div>
@@ -153,7 +342,7 @@
           <li>Knows for certain when the ignition is on</li>
           <li>Works on engines with no diagnostic socket too</li>
         </ul>
-        <a class="btn" href="https://buy.stripe.com/test_3cIcN6cNmcBB4a48Oq18c01">Buy bundle &middot; 249 &euro;</a>
+        <a class="btn" href="https://buy.stripe.com/test_3cIcN6cNmcBB4a48Oq18c01">Buy bundle &middot; 249 <span class="eur">&euro;</span></a>
       </div>
     </div>
     <p class="note">Each one is assembled and tested by hand, in small batches, so there may be a short wait. Not sure which you need? <a href="mailto:ralfsvolis@gmail.com">Write to us</a> and tell us about your van.</p>
